@@ -1,21 +1,18 @@
 package ua.univ.vsynytsyn.timetable.domain.entities;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Entity
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Data
-@Component
+@Entity
+@Table(name = "grp")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long groupID;
 
     private String name;
 }

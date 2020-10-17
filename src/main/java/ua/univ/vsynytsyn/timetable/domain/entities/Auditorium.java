@@ -1,21 +1,18 @@
 package ua.univ.vsynytsyn.timetable.domain.entities;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Data
-@Component
+@Table(name="auditorium")
 public class Auditorium {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long auditoriumID;
 
     private String name;
     private String building;
