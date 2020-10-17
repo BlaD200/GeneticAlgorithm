@@ -68,7 +68,7 @@ public class CsvLoaderController {
 
     public <T> List<T> load(MultipartFile file, Class<T> clazz)
             throws IOException, IllegalAccessException, CsvDeserializableException, InvocationTargetException {
-        String json = new String(file.getBytes());
-        return CsvUtils.parseCsv(json, ", ", clazz);
+        String csv = new String(file.getBytes());
+        return CsvUtils.parseCsv(csv, ", ", clazz);
     }
 }
