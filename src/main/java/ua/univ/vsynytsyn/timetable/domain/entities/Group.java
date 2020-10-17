@@ -1,6 +1,7 @@
 package ua.univ.vsynytsyn.timetable.domain.entities;
 
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
+@Component
 public class Group {
 
     @Id
