@@ -1,12 +1,14 @@
-package ua.univ.vsynytsyn.timetable.domain.entities.restrictions;
+package ua.univ.vsynytsyn.timetable.domain.model.restrictions.impl;
 
-import ua.univ.vsynytsyn.timetable.domain.data.Allele;
+
+import ua.univ.vsynytsyn.timetable.domain.model.Allele;
 
 public class LectorOverlapRestriction extends OverlapRestriction {
 
     public LectorOverlapRestriction(double penalty) {
         super(penalty);
     }
+
 
     @Override
     long getEntityId(Allele allele) {

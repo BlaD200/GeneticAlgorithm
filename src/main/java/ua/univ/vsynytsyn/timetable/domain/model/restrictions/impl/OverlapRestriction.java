@@ -1,7 +1,8 @@
-package ua.univ.vsynytsyn.timetable.domain.entities.restrictions;
+package ua.univ.vsynytsyn.timetable.domain.model.restrictions.impl;
 
-import ua.univ.vsynytsyn.timetable.domain.data.Allele;
-import ua.univ.vsynytsyn.timetable.domain.data.Unit;
+import ua.univ.vsynytsyn.timetable.domain.model.Allele;
+import ua.univ.vsynytsyn.timetable.domain.model.Unit;
+import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
 
 import java.util.ArrayList;
 import java.util.Comparator;

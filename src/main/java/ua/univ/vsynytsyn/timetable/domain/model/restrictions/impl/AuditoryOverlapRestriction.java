@@ -1,6 +1,6 @@
-package ua.univ.vsynytsyn.timetable.domain.entities.restrictions;
+package ua.univ.vsynytsyn.timetable.domain.model.restrictions.impl;
 
-import ua.univ.vsynytsyn.timetable.domain.data.Allele;
+import ua.univ.vsynytsyn.timetable.domain.model.Allele;
 
 public class AuditoryOverlapRestriction extends OverlapRestriction {
 
