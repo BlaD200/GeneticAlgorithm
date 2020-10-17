@@ -14,13 +14,13 @@ import java.util.Optional;
 
 public class AuditoriumCapacityRestriction implements Restriction {
 
-    private final double penalty;
+    private final double penalty = -1;
+
+    private final AuditoriumRepository auditoriumRepository;
 
     @Autowired
-    private AuditoriumRepository auditoriumRepository;
-
-    public AuditoriumCapacityRestriction(double penalty) {
-        this.penalty = penalty;
+    public AuditoriumCapacityRestriction(AuditoriumRepository auditoriumRepository) {
+        this.auditoriumRepository = auditoriumRepository;
     }
 
     @Override

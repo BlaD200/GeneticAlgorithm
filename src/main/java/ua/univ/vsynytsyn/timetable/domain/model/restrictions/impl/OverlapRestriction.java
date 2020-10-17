@@ -11,12 +11,6 @@ import java.util.List;
 
 abstract public class OverlapRestriction implements Restriction {
 
-    private final double penalty;
-
-    public OverlapRestriction(double penalty) {
-        this.penalty = penalty;
-    }
-
     @Override
     public double calculatePenalty(Unit unit) {
         if (unit.getAlleles().size() < 1)
@@ -37,7 +31,7 @@ abstract public class OverlapRestriction implements Restriction {
 
             long id = getEntityId(allele);
             if (!seen.add(id)) {
-                result += penalty;
+                result += getPenalty();
             }
         }
 
@@ -45,4 +39,6 @@ abstract public class OverlapRestriction implements Restriction {
     }
 
     abstract long getEntityId(Allele allele);
+
+    abstract double getPenalty();
 }
