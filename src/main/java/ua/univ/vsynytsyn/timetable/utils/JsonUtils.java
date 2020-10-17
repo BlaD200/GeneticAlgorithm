@@ -1,6 +1,8 @@
 package ua.univ.vsynytsyn.timetable.utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ua.univ.vsynytsyn.timetable.domain.entities.AllEntities;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -15,5 +17,9 @@ public class JsonUtils {
         Class<T[]> arrayClass = (Class<T[]>) Class.forName("[L" + classOnWhichArrayIsDefined.getName() + ";");
         T[] objects = mapper.readValue(json, arrayClass);
         return Arrays.asList(objects);
+    }
+
+    public static AllEntities parseJsonAll(String json) throws JsonProcessingException {
+        return mapper.readValue(json, AllEntities.class);
     }
 }

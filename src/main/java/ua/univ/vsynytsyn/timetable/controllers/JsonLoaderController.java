@@ -24,6 +24,13 @@ public class JsonLoaderController {
         this.loadService = loadService;
     }
 
+    @PostMapping(value = "/all")
+    public AllEntities all(@RequestParam("file") MultipartFile file) throws IOException {
+        AllEntities all = loadAll(file);
+        loadService.saveAll(all);
+        return all;
+    }
+
     @PostMapping(value = "/auditoriums")
     public List<Auditorium> auditoriums(@RequestParam("file") MultipartFile file) throws IOException, ClassNotFoundException {
         List<Auditorium> auditoriums = load(file, Auditorium.class);
@@ -57,6 +64,11 @@ public class JsonLoaderController {
         List<TimeSlot> timeSlots = load(file, TimeSlot.class);
         loadService.saveTimeSlots(timeSlots);
         return timeSlots;
+    }
+
+    public AllEntities loadAll(MultipartFile file) throws IOException {
+        String json = new String(file.getBytes());
+        return JsonUtils.parseJsonAll(json);
     }
 
     public <T> List<T> load(MultipartFile file, Class<T> clazz) throws IOException, ClassNotFoundException {
