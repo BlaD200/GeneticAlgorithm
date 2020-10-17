@@ -2,9 +2,9 @@ package ua.univ.vsynytsyn.timetable.domain.model.restrictions.impl;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import ua.univ.vsynytsyn.timetable.domain.data.Allele;
-import ua.univ.vsynytsyn.timetable.domain.data.Unit;
 import ua.univ.vsynytsyn.timetable.domain.entities.Auditorium;
+import ua.univ.vsynytsyn.timetable.domain.model.Allele;
+import ua.univ.vsynytsyn.timetable.domain.model.Unit;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
 import ua.univ.vsynytsyn.timetable.exceptions.AuditoriumNotFound;
 import ua.univ.vsynytsyn.timetable.repositories.AuditoriumRepository;
