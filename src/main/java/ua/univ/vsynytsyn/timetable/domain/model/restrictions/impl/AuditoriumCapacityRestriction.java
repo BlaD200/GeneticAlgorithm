@@ -6,7 +6,7 @@ import ua.univ.vsynytsyn.timetable.domain.entities.Auditorium;
 import ua.univ.vsynytsyn.timetable.domain.model.Allele;
 import ua.univ.vsynytsyn.timetable.domain.model.Unit;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
-import ua.univ.vsynytsyn.timetable.exceptions.AuditoriumNotFound;
+import ua.univ.vsynytsyn.timetable.exceptions.AuditoriumNotFoundException;
 import ua.univ.vsynytsyn.timetable.repositories.AuditoriumRepository;
 
 import java.util.List;
@@ -43,7 +43,7 @@ public class AuditoriumCapacityRestriction implements Restriction {
         if (optionalAuditorium.isPresent()) {
             return optionalAuditorium.get().getSpace();
         } else {
-            throw new AuditoriumNotFound();
+            throw new AuditoriumNotFoundException();
         }
     }
 }

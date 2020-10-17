@@ -1,6 +1,7 @@
 package ua.univ.vsynytsyn.timetable.domain.entities;
 
 import lombok.Data;
+import ua.univ.vsynytsyn.timetable.utils.CsvDeserializable;
 
 import javax.persistence.*;
 
@@ -15,4 +16,14 @@ public class Lector {
     private Long lectorID;
 
     private String name;
+
+    @CsvDeserializable
+    public static Lector getInstance(String[] strings) {
+        Lector lector = new Lector();
+
+        lector.setLectorID(Long.valueOf(strings[0]));
+        lector.setName(strings[1]);
+
+        return lector;
+    }
 }
