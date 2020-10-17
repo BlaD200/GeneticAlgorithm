@@ -2,6 +2,7 @@ package ua.univ.vsynytsyn.timetable.domain.model;
 
 import ua.univ.vsynytsyn.timetable.domain.data.StudyBlock;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
+import ua.univ.vsynytsyn.timetable.service.AlgorithmService;
 import ua.univ.vsynytsyn.timetable.service.AuditoriumService;
 import ua.univ.vsynytsyn.timetable.service.TimeSlotService;
 
@@ -17,15 +18,17 @@ public class Population {
 
     private final AuditoriumService auditoriumService;
     private final TimeSlotService timeSlotService;
+    private final AlgorithmService algorithmService;
 
 
-    public Population(int unitsNumber, int iterations, double mutationRate, List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService) {
+    public Population(int unitsNumber, int iterations, double mutationRate, List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService, AlgorithmService algorithmService) {
         this.unitsNumber = unitsNumber;
         this.iterations = iterations;
         this.mutationRate = mutationRate;
         this.restrictions = restrictions;
         this.auditoriumService = auditoriumService;
         this.timeSlotService = timeSlotService;
+        this.algorithmService = algorithmService;
     }
 
 
@@ -131,7 +134,19 @@ public class Population {
 
 
     private List<Allele> createRandomAlleles() {
-        return null;
+        List<StudyBlock> studyBlocks = algorithmService.createStudyBlocks();
+        Allele[] alleles = new Allele[studyBlocks.size()];
+
+        for (int i = 0; i < studyBlocks.size(); i++) {
+            Allele allele = Allele
+                    .builder()
+                    .studyBlock(studyBlocks.get(i))
+                    .timeSlotID(timeSlotService.getRandomTimeSlotId())
+                    .auditoriumID(auditoriumService.getRandomAuditoriumId())
+                    .build();
+            alleles[i] = allele;
+        }
+        return Arrays.asList(alleles);
     }
 
 
