@@ -100,7 +100,7 @@ public class Population {
                 offspringAlleles.set(k, allele);
             }
 
-            Unit offspring = new Unit(offspringAlleles);
+            Unit offspring = new Unit.UnitBuilder().alleles(offspringAlleles).build();
             offsprings.set(i, offspring);
         }
         this.units = offsprings;

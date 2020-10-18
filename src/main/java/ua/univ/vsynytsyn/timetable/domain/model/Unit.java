@@ -15,10 +15,6 @@ public class Unit {
     private List<Allele> alleles;
     private Double fitness;
 
-    public Unit(List<Allele> alleles){
-        this.alleles = alleles;
-    }
-
     public double calculateFitness(List<Restriction> restrictions){
         fitness = 0.;
         for (Restriction restriction : restrictions) {

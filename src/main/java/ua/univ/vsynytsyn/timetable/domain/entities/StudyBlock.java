@@ -13,7 +13,7 @@ public class StudyBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String studyBlockID;
+    private Long studyBlockID;
 
     private Long lessonID;
     private Long lectorID;

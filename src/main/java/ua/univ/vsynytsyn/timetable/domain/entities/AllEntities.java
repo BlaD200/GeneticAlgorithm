@@ -11,4 +11,5 @@ public class AllEntities {
     private List<Lector> lectors;
     private List<Lesson> lessons;
     private List<TimeSlot> timeSlots;
+    private List<StudyBlock> studyBlocks;
 }

@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.univ.vsynytsyn.timetable.domain.entities.*;
 import ua.univ.vsynytsyn.timetable.repositories.*;
-import ua.univ.vsynytsyn.timetable.utils.JsonUtils;
 
 import java.util.List;
 
@@ -16,18 +15,21 @@ public class LoadService {
     private final LectorRepository lectorRepository;
     private final LessonRepository lessonRepository;
     private final TimeSlotRepository timeSlotRepository;
+    private final StudyBlockRepository studyBlockRepository;
 
     @Autowired
     public LoadService(AuditoriumRepository auditoriumRepository,
                        GroupsRepository groupsRepository,
                        LectorRepository lectorRepository,
                        LessonRepository lessonRepository,
-                       TimeSlotRepository timeSlotRepository) {
+                       TimeSlotRepository timeSlotRepository,
+                       StudyBlockRepository studyBlockRepository) {
         this.auditoriumRepository = auditoriumRepository;
         this.groupsRepository = groupsRepository;
         this.lectorRepository = lectorRepository;
         this.lessonRepository = lessonRepository;
         this.timeSlotRepository = timeSlotRepository;
+        this.studyBlockRepository = studyBlockRepository;
     }
 
     public void saveAll(AllEntities all) {
@@ -36,6 +38,7 @@ public class LoadService {
         saveLectors(all.getLectors());
         saveLessons(all.getLessons());
         saveTimeSlots(all.getTimeSlots());
+        saveStudyBlocks(all.getStudyBlocks());
     }
 
     public void saveAuditoriums(List<Auditorium> auditoriums) {
@@ -56,5 +59,9 @@ public class LoadService {
 
     public void saveTimeSlots(List<TimeSlot> timeSlots) {
         timeSlotRepository.saveAll(timeSlots);
+    }
+
+    public void saveStudyBlocks(List<StudyBlock> studyBlocks) {
+        studyBlockRepository.saveAll(studyBlocks);
     }
 }

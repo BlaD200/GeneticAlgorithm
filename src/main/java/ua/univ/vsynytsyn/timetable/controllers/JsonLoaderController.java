@@ -66,6 +66,13 @@ public class JsonLoaderController {
         return timeSlots;
     }
 
+    @PostMapping(value = "/studyBlocks")
+    public List<StudyBlock> studyBlocks(@RequestParam("file") MultipartFile file) throws IOException, ClassNotFoundException {
+        List<StudyBlock> studyBlocks = load(file, StudyBlock.class);
+        loadService.saveStudyBlocks(studyBlocks);
+        return studyBlocks;
+    }
+
     public AllEntities loadAll(MultipartFile file) throws IOException {
         String json = new String(file.getBytes());
         return JsonUtils.parseJsonAll(json);
