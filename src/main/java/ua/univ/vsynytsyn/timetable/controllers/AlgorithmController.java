@@ -12,9 +12,13 @@ import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
 import ua.univ.vsynytsyn.timetable.service.AlgorithmService;
 import ua.univ.vsynytsyn.timetable.service.AuditoriumService;
 import ua.univ.vsynytsyn.timetable.service.TimeSlotService;
+import ua.univ.vsynytsyn.timetable.utils.XlsxUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -26,13 +30,24 @@ public class AlgorithmController {
     private final AuditoriumService auditoriumService;
     private final TimeSlotService timeSlotService;
     private final AlgorithmService algorithmService;
+    private final XlsxUtils xlsxUtils;
+    private final String xlsxPath;
 
     @Autowired
-    public AlgorithmController(List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService, AlgorithmService algorithmService) {
+    public AlgorithmController(List<Restriction> restrictions,
+                               AuditoriumService auditoriumService,
+                               TimeSlotService timeSlotService,
+                               AlgorithmService algorithmService,
+                               XlsxUtils xlsxUtils) {
         this.restrictions = restrictions;
         this.auditoriumService = auditoriumService;
         this.timeSlotService = timeSlotService;
         this.algorithmService = algorithmService;
+        this.xlsxUtils = xlsxUtils;
+
+        File currDir = new File(".");
+        String path = currDir.getAbsolutePath();
+        xlsxPath = path.substring(0, path.length() - 1) + "temp.xlsx";
     }
 
 
@@ -50,15 +65,16 @@ public class AlgorithmController {
             );
 
             Unit unit = population.startSelection();
-            if (unit == null){
+            if (unit == null) {
                 response.setStatus(HttpStatus.NO_CONTENT.value());
                 return;
             }
             // get your file as InputStream
-//            InputStream is = getXslxFileFromUnit(unit);
+            xlsxUtils.createXlsx(unit, xlsxPath);
+            InputStream is = new FileInputStream(xlsxPath);
             // copy it to response's OutputStream
-//            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
-//            response.setContentType("application/xlsx");
+            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
+            response.setContentType("application/xlsx");
             response.flushBuffer();
         } catch (IOException ex) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
