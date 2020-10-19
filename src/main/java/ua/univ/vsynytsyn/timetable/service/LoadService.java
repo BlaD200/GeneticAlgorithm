@@ -32,6 +32,18 @@ public class LoadService {
         this.studyBlockRepository = studyBlockRepository;
     }
 
+
+    public AllEntities getAll(){
+        return AllEntities.builder()
+                .auditoriums(auditoriumRepository.findAll())
+                .groups(groupsRepository.findAll())
+                .lectors(lectorRepository.findAll())
+                .lessons(lessonRepository.findAll())
+                .studyBlocks(studyBlockRepository.findAll())
+                .timeSlots(timeSlotRepository.findAll())
+                .build();
+    }
+
     public void saveAll(AllEntities all) {
         saveAuditoriums(all.getAuditoriums());
         saveGroups(all.getGroups());

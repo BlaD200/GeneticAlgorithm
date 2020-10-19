@@ -2,7 +2,7 @@ package ua.univ.vsynytsyn.timetable.domain.model;
 
 import lombok.Builder;
 import lombok.Data;
-import ua.univ.vsynytsyn.timetable.domain.data.StudyBlock;
+import ua.univ.vsynytsyn.timetable.domain.entities.StudyBlock;
 
 @Data
 @Builder

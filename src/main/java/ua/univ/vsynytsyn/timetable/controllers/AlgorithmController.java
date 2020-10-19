@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.univ.vsynytsyn.timetable.domain.model.Population;
 import ua.univ.vsynytsyn.timetable.domain.model.Unit;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
-import ua.univ.vsynytsyn.timetable.service.AlgorithmService;
+import ua.univ.vsynytsyn.timetable.repositories.StudyBlockRepository;
 import ua.univ.vsynytsyn.timetable.service.AuditoriumService;
 import ua.univ.vsynytsyn.timetable.service.TimeSlotService;
 
@@ -25,14 +25,15 @@ public class AlgorithmController {
 
     private final AuditoriumService auditoriumService;
     private final TimeSlotService timeSlotService;
-    private final AlgorithmService algorithmService;
+    private final StudyBlockRepository studyBlockRepository;
 
     @Autowired
-    public AlgorithmController(List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService, AlgorithmService algorithmService) {
+    public AlgorithmController(List<Restriction> restrictions, AuditoriumService auditoriumService,
+                               TimeSlotService timeSlotService, StudyBlockRepository studyBlockRepository) {
         this.restrictions = restrictions;
         this.auditoriumService = auditoriumService;
         this.timeSlotService = timeSlotService;
-        this.algorithmService = algorithmService;
+        this.studyBlockRepository = studyBlockRepository;
     }
 
 
@@ -46,8 +47,8 @@ public class AlgorithmController {
             Population population = new Population(
                     unitsNumber, iterations, mutationRate,
                     restrictions,
-                    auditoriumService, timeSlotService, algorithmService
-            );
+                    auditoriumService, timeSlotService,
+                    studyBlockRepository);
 
             Unit unit = population.startSelection();
             if (unit == null){
