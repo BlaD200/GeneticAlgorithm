@@ -1,8 +1,8 @@
 package ua.univ.vsynytsyn.timetable.domain.model;
 
-import ua.univ.vsynytsyn.timetable.domain.data.StudyBlock;
+import ua.univ.vsynytsyn.timetable.domain.entities.StudyBlock;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
-import ua.univ.vsynytsyn.timetable.service.AlgorithmService;
+import ua.univ.vsynytsyn.timetable.repositories.StudyBlockRepository;
 import ua.univ.vsynytsyn.timetable.service.AuditoriumService;
 import ua.univ.vsynytsyn.timetable.service.TimeSlotService;
 
@@ -18,26 +18,27 @@ public class Population {
 
     private final AuditoriumService auditoriumService;
     private final TimeSlotService timeSlotService;
-    private final AlgorithmService algorithmService;
+    private final StudyBlockRepository studyBlockRepository;
 
 
-    public Population(int unitsNumber, int iterations, double mutationRate, List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService, AlgorithmService algorithmService) {
+    public Population(int unitsNumber, int iterations, double mutationRate, List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService, StudyBlockRepository studyBlockRepository) {
         this.unitsNumber = unitsNumber;
         this.iterations = iterations;
         this.mutationRate = mutationRate;
         this.restrictions = restrictions;
         this.auditoriumService = auditoriumService;
         this.timeSlotService = timeSlotService;
-        this.algorithmService = algorithmService;
+        this.studyBlockRepository = studyBlockRepository;
     }
 
 
     public Unit startSelection() {
         createInitialPopulation();
+        selection();
         for (int i = 0; i < iterations; i++) {
-            selection();
             crossover();
             mutations();
+            selection();
 
             Unit result = checkForResult();
             if (result != null)
@@ -97,11 +98,11 @@ public class Population {
                         .auditoriumID(auditoriumId)
                         .timeSlotID(timeSlotId)
                         .build();
-                offspringAlleles.set(k, allele);
+                offspringAlleles.add(k, allele);
             }
 
             Unit offspring = new Unit.UnitBuilder().alleles(offspringAlleles).build();
-            offsprings.set(i, offspring);
+            offsprings.add(i, offspring);
         }
         this.units = offsprings;
     }
@@ -134,7 +135,7 @@ public class Population {
 
 
     private List<Allele> createRandomAlleles() {
-        List<StudyBlock> studyBlocks = algorithmService.createStudyBlocks();
+        List<StudyBlock> studyBlocks = studyBlockRepository.findAll();
         Allele[] alleles = new Allele[studyBlocks.size()];
 
         for (int i = 0; i < studyBlocks.size(); i++) {
@@ -165,7 +166,12 @@ public class Population {
             if (sortedUnit.getFitness() <= randVal)
                 return sortedUnit;
         }
-        return null;
+        return getRandomUnit();
+    }
+
+    public Unit getRandomUnit() {
+        int randomIndex = (int) (Math.random() * units.size());
+        return units.get(randomIndex);
     }
 
 

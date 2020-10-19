@@ -1,10 +1,7 @@
 package ua.univ.vsynytsyn.timetable.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.univ.vsynytsyn.timetable.domain.entities.*;
 import ua.univ.vsynytsyn.timetable.service.LoadService;
@@ -22,6 +19,11 @@ public class JsonLoaderController {
     @Autowired
     public JsonLoaderController(LoadService loadService) {
         this.loadService = loadService;
+    }
+
+    @GetMapping
+    public AllEntities all(){
+        return loadService.getAll();
     }
 
     @PostMapping(value = "/all")

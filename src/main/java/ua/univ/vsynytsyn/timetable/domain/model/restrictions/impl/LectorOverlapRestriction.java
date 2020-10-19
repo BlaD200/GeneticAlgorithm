@@ -13,6 +13,6 @@ public class LectorOverlapRestriction extends OverlapRestriction {
 
     @Override
     double getPenalty() {
-        return -1;
+        return 1;
     }
 }

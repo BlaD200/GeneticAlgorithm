@@ -1,7 +1,6 @@
 package ua.univ.vsynytsyn.timetable.domain.model.restrictions.impl;
 
 import lombok.SneakyThrows;
-import org.hibernate.annotations.Cache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.univ.vsynytsyn.timetable.domain.entities.Auditorium;
@@ -17,7 +16,7 @@ import java.util.Optional;
 @Component
 public class AuditoriumCapacityRestriction implements Restriction {
 
-    private final double penalty = -1;
+    private final double penalty = 1;
 
     private final AuditoriumRepository auditoriumRepository;
 
