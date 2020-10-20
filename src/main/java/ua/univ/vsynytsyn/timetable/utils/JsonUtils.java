@@ -2,7 +2,7 @@ package ua.univ.vsynytsyn.timetable.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ua.univ.vsynytsyn.timetable.domain.entities.AllEntities;
+import ua.univ.vsynytsyn.timetable.domain.dto.AllEntitiesDTO;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,7 +19,7 @@ public class JsonUtils {
         return Arrays.asList(objects);
     }
 
-    public static AllEntities parseJsonAll(String json) throws JsonProcessingException {
-        return mapper.readValue(json, AllEntities.class);
+    public static AllEntitiesDTO parseJsonAll(String json) throws JsonProcessingException {
+        return mapper.readValue(json, AllEntitiesDTO.class);
     }
 }

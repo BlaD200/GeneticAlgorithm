@@ -126,8 +126,8 @@ public class XlsxUtils {
         String auditoriumName;
         if (auditoriumOptional.isPresent()) {
             Auditorium auditorium = auditoriumOptional.get();
-            String nameOrNumber = (auditorium.getName() == null) ? auditorium.getName() : auditorium.getNumber();
-            auditoriumName = auditorium.getBuilding() + nameOrNumber;
+            String nameOrNumber = auditorium.getNumber();
+            auditoriumName = auditorium.getBuilding() +"; " + nameOrNumber;
         } else {
             auditoriumName = "None";
         }
@@ -139,7 +139,8 @@ public class XlsxUtils {
         Optional<TimeSlot> timeSlotOptional = timeSlotRepository.findById(timeSlotId);
         String timeSlotName;
         if (timeSlotOptional.isPresent()) {
-            timeSlotName = timeSlotOptional.get().getName();
+            TimeSlot timeSlot = timeSlotOptional.get();
+            timeSlotName = timeSlot.getDay()+';'+timeSlot.getTime();
         } else {
             timeSlotName = "None";
         }

@@ -6,4 +6,5 @@ import ua.univ.vsynytsyn.timetable.domain.entities.Lector;
 
 @Repository
 public interface LectorRepository extends JpaRepository<Lector, Long> {
+    Lector findLectorByNameEquals(String name);
 }

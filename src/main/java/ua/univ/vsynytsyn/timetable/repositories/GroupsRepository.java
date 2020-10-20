@@ -6,4 +6,5 @@ import ua.univ.vsynytsyn.timetable.domain.entities.Group;
 
 @Repository
 public interface GroupsRepository extends JpaRepository<Group, Long> {
+    Group findGroupByNameEquals(String name);
 }
