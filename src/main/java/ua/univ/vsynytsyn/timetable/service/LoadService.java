@@ -123,4 +123,14 @@ public class LoadService {
         ).collect(Collectors.toList());
         studyBlockRepository.saveAll(studyBlocks);
     }
+
+
+    public void deleteAll(){
+        auditoriumRepository.deleteAll();
+        groupsRepository.deleteAll();
+        lectorRepository.deleteAll();
+        lessonRepository.deleteAll();
+        studyBlockRepository.deleteAll();
+        timeSlotRepository.deleteAll();
+    }
 }

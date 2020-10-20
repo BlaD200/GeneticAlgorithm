@@ -11,6 +11,7 @@ import ua.univ.vsynytsyn.timetable.domain.model.Unit;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
 import ua.univ.vsynytsyn.timetable.repositories.StudyBlockRepository;
 import ua.univ.vsynytsyn.timetable.service.AuditoriumService;
+import ua.univ.vsynytsyn.timetable.service.LoadService;
 import ua.univ.vsynytsyn.timetable.service.TimeSlotService;
 import ua.univ.vsynytsyn.timetable.utils.XlsxUtils;
 
@@ -30,6 +31,7 @@ public class AlgorithmController {
     private final AuditoriumService auditoriumService;
     private final TimeSlotService timeSlotService;
     private final StudyBlockRepository studyBlockRepository;
+    private final LoadService loadService;
     private final XlsxUtils xlsxUtils;
     private final String xlsxPath;
 
@@ -38,11 +40,12 @@ public class AlgorithmController {
                                AuditoriumService auditoriumService,
                                TimeSlotService timeSlotService,
                                StudyBlockRepository studyBlockRepository,
-                               XlsxUtils xlsxUtils) {
+                               LoadService loadService, XlsxUtils xlsxUtils) {
         this.restrictions = restrictions;
         this.auditoriumService = auditoriumService;
         this.timeSlotService = timeSlotService;
         this.studyBlockRepository = studyBlockRepository;
+        this.loadService = loadService;
         this.xlsxUtils = xlsxUtils;
 
         File currDir = new File(".");
@@ -77,6 +80,7 @@ public class AlgorithmController {
             response.setContentType("application/xlsx");
             response.addHeader("correct", "true");
             response.flushBuffer();
+            loadService.deleteAll();
         } catch (IOException ex) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
