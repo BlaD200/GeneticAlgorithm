@@ -127,7 +127,7 @@ public class XlsxUtils {
         if (auditoriumOptional.isPresent()) {
             Auditorium auditorium = auditoriumOptional.get();
             String nameOrNumber = auditorium.getNumber();
-            auditoriumName = auditorium.getBuilding() +"; " + nameOrNumber;
+            auditoriumName = auditorium.getBuilding() +"; " + nameOrNumber + '[' + auditorium.getSpace() + ']';
         } else {
             auditoriumName = "None";
         }
