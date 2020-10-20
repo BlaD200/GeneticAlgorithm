@@ -48,6 +48,11 @@ public class Population {
     }
 
 
+    public Unit getUnitWithLowestFitness(){
+        return sortByFitness().get(units.size() - 1);
+    }
+
+
     private void createInitialPopulation() {
         units = new ArrayList<>(unitsNumber);
         for (int i = 0; i < unitsNumber; ++i) {

@@ -66,8 +66,8 @@ public class AlgorithmController {
 
             Unit unit = population.startSelection();
             if (unit == null) {
-                response.setStatus(HttpStatus.NO_CONTENT.value());
-                return;
+                unit = population.getUnitWithLowestFitness();
+                response.addHeader("correct", "false");
             }
             // get your file as InputStream
             xlsxUtils.createXlsx(unit, xlsxPath);
@@ -75,6 +75,7 @@ public class AlgorithmController {
             // copy it to response's OutputStream
             org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
             response.setContentType("application/xlsx");
+            response.addHeader("correct", "true");
             response.flushBuffer();
         } catch (IOException ex) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
