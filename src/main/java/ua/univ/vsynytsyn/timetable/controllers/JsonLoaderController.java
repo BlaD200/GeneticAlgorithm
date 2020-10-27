@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.univ.vsynytsyn.timetable.domain.dto.AllEntitiesDTO;
-import ua.univ.vsynytsyn.timetable.domain.dto.AuditoriumDTO;
 import ua.univ.vsynytsyn.timetable.domain.entities.AllEntities;
 import ua.univ.vsynytsyn.timetable.service.LoadService;
 import ua.univ.vsynytsyn.timetable.utils.JsonUtils;
@@ -35,14 +34,14 @@ public class JsonLoaderController {
         return all;
     }
 
-    @PostMapping(value = "/auditoriums")
-    public List<AuditoriumDTO> auditoriums(@RequestParam("file") MultipartFile file) throws IOException,
-            ClassNotFoundException {
-        List<AuditoriumDTO> auditoriums = load(file, AuditoriumDTO.class);
-        loadService.saveAuditoriums(auditoriums);
-        return auditoriums;
-    }
-
+//    @PostMapping(value = "/auditoriums")
+//    public List<AuditoriumDTO> auditoriums(@RequestParam("file") MultipartFile file) throws IOException,
+//            ClassNotFoundException {
+//        List<AuditoriumDTO> auditoriums = load(file, AuditoriumDTO.class);
+//        loadService.saveAuditoriums(auditoriums);
+//        return auditoriums;
+//    }
+//
 //    @PostMapping(value = "/groups")
 //    public List<Group> groups(@RequestParam("file") MultipartFile file) throws IOException, ClassNotFoundException {
 //        List<Group> groups = load(file, GroupDTO.class);

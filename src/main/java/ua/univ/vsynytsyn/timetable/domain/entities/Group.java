@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import ua.univ.vsynytsyn.timetable.utils.CsvDeserializable;
 
 import javax.persistence.*;
+import java.util.List;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Data
@@ -22,6 +23,9 @@ public class Group {
     private Long groupID;
 
     private String name;
+
+    @ManyToMany(mappedBy = "groups", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Student> students;
 
     @CsvDeserializable
     public static Group getInstance(String[] strings) {

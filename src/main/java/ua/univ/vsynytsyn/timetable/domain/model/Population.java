@@ -2,6 +2,7 @@ package ua.univ.vsynytsyn.timetable.domain.model;
 
 import ua.univ.vsynytsyn.timetable.domain.entities.StudyBlock;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
+import ua.univ.vsynytsyn.timetable.repositories.GroupsRepository;
 import ua.univ.vsynytsyn.timetable.repositories.StudyBlockRepository;
 import ua.univ.vsynytsyn.timetable.service.AuditoriumService;
 import ua.univ.vsynytsyn.timetable.service.TimeSlotService;
@@ -19,9 +20,10 @@ public class Population {
     private final AuditoriumService auditoriumService;
     private final TimeSlotService timeSlotService;
     private final StudyBlockRepository studyBlockRepository;
+    private final GroupsRepository groupsRepository;
 
 
-    public Population(int unitsNumber, int iterations, double mutationRate, List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService, StudyBlockRepository studyBlockRepository) {
+    public Population(int unitsNumber, int iterations, double mutationRate, List<Restriction> restrictions, AuditoriumService auditoriumService, TimeSlotService timeSlotService, StudyBlockRepository studyBlockRepository, GroupsRepository groupsRepository) {
         this.unitsNumber = unitsNumber;
         this.iterations = iterations;
         this.mutationRate = mutationRate;
@@ -29,6 +31,7 @@ public class Population {
         this.auditoriumService = auditoriumService;
         this.timeSlotService = timeSlotService;
         this.studyBlockRepository = studyBlockRepository;
+        this.groupsRepository = groupsRepository;
     }
 
 

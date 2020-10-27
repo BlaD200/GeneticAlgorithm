@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ua.univ.vsynytsyn.timetable.domain.model.Population;
 import ua.univ.vsynytsyn.timetable.domain.model.Unit;
 import ua.univ.vsynytsyn.timetable.domain.model.restrictions.Restriction;
+import ua.univ.vsynytsyn.timetable.repositories.GroupsRepository;
 import ua.univ.vsynytsyn.timetable.repositories.StudyBlockRepository;
 import ua.univ.vsynytsyn.timetable.service.AuditoriumService;
 import ua.univ.vsynytsyn.timetable.service.LoadService;
@@ -31,6 +32,8 @@ public class AlgorithmController {
     private final AuditoriumService auditoriumService;
     private final TimeSlotService timeSlotService;
     private final StudyBlockRepository studyBlockRepository;
+    private final GroupsRepository groupsRepository;
+
     private final LoadService loadService;
     private final XlsxUtils xlsxUtils;
     private final String xlsxPath;
@@ -40,11 +43,12 @@ public class AlgorithmController {
                                AuditoriumService auditoriumService,
                                TimeSlotService timeSlotService,
                                StudyBlockRepository studyBlockRepository,
-                               LoadService loadService, XlsxUtils xlsxUtils) {
+                               GroupsRepository groupsRepository, LoadService loadService, XlsxUtils xlsxUtils) {
         this.restrictions = restrictions;
         this.auditoriumService = auditoriumService;
         this.timeSlotService = timeSlotService;
         this.studyBlockRepository = studyBlockRepository;
+        this.groupsRepository = groupsRepository;
         this.loadService = loadService;
         this.xlsxUtils = xlsxUtils;
 
@@ -65,20 +69,22 @@ public class AlgorithmController {
                     unitsNumber, iterations, mutationRate,
                     restrictions,
                     auditoriumService, timeSlotService,
-                    studyBlockRepository);
+                    studyBlockRepository, groupsRepository);
 
             Unit unit = population.startSelection();
             if (unit == null) {
                 unit = population.getUnitWithLowestFitness();
                 response.addHeader("correct", "false");
-            }
+                System.out.println("incorrect");
+            } else
+                response.addHeader("correct", "true");
             // get your file as InputStream
             xlsxUtils.createXlsx(unit, xlsxPath);
             InputStream is = new FileInputStream(xlsxPath);
             // copy it to response's OutputStream
             org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
             response.setContentType("application/xlsx");
-            response.addHeader("correct", "true");
+            response.addHeader("Access-Control-Expose-Headers", "correct");
             response.flushBuffer();
             loadService.deleteAll();
         } catch (IOException ex) {

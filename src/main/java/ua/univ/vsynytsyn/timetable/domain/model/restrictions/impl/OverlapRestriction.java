@@ -29,16 +29,18 @@ abstract public class OverlapRestriction implements Restriction {
                 seen = new HashSet<>();
             }
 
-            long id = getEntityId(allele);
-            if (!seen.add(id)) {
-                result += getPenalty();
+            List<Long> ids = getEntityIds(allele);
+            for (Long id : ids) {
+                if (!seen.add(id)) {
+                    result += getPenalty();
+                }
             }
         }
 
         return result;
     }
 
-    abstract long getEntityId(Allele allele);
+    abstract List<Long> getEntityIds(Allele allele);
 
     abstract double getPenalty();
 }

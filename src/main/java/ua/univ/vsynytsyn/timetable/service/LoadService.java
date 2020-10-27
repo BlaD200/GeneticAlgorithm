@@ -2,11 +2,12 @@ package ua.univ.vsynytsyn.timetable.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.univ.vsynytsyn.timetable.domain.data.LessonType;
 import ua.univ.vsynytsyn.timetable.domain.dto.*;
 import ua.univ.vsynytsyn.timetable.domain.entities.*;
 import ua.univ.vsynytsyn.timetable.repositories.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +19,7 @@ public class LoadService {
     private final LessonRepository lessonRepository;
     private final TimeSlotRepository timeSlotRepository;
     private final StudyBlockRepository studyBlockRepository;
+    private final StudentRepository studentRepository;
 
 
     @Autowired
@@ -26,13 +28,14 @@ public class LoadService {
                        LectorRepository lectorRepository,
                        LessonRepository lessonRepository,
                        TimeSlotRepository timeSlotRepository,
-                       StudyBlockRepository studyBlockRepository) {
+                       StudyBlockRepository studyBlockRepository, StudentRepository studentRepository) {
         this.auditoriumRepository = auditoriumRepository;
         this.groupsRepository = groupsRepository;
         this.lectorRepository = lectorRepository;
         this.lessonRepository = lessonRepository;
         this.timeSlotRepository = timeSlotRepository;
         this.studyBlockRepository = studyBlockRepository;
+        this.studentRepository = studentRepository;
     }
 
 
@@ -121,11 +124,57 @@ public class LoadService {
                 .studentsCount(it.getStudentsCount())
                 .build()
         ).collect(Collectors.toList());
+
+        int maxStudents = studyBlocks.stream().max(Comparator.comparing(StudyBlock::getStudentsCount)).get().getStudentsCount();
+        List<Student> students = new ArrayList<>(maxStudents);
+        for (int i = 0; i < maxStudents; i++) {
+            students.add(i, Student.builder().studentID((long) i).groups(new HashSet<>()).build());
+        }
+
+        Map<Long, List<StudyBlock>> map = studyBlocks
+                .stream()
+                .collect(Collectors.groupingBy(StudyBlock::getLessonID));
+
+        map.forEach((lessonId, blocks) -> {
+            int studsInGroup = 0;
+            for (StudyBlock block : blocks) {
+                if (block.getLessonType() != LessonType.PRACTICE) {
+                    Optional<Group> groupOptional = groupsRepository.findById(block.getGroupID());
+                    if (groupOptional.isPresent()) {
+                        for (int j = 0; j < block.getStudentsCount(); j++) {
+                            students.get(j).getGroups().add(groupOptional.get());
+                        }
+                    }
+                    blocks.remove(block);
+                    break;
+                }
+            }
+
+            for (StudyBlock block : blocks) {
+                if (block.getLessonType() == LessonType.PRACTICE)
+                    studsInGroup = block.getStudentsCount();
+            }
+
+            for (int i = 0; i < blocks.size(); i++) {
+                Optional<Group> groupOptional = groupsRepository.findById(blocks.get(i).getGroupID());
+                if (groupOptional.isPresent())
+                    if (blocks.get(i).getLessonType() == LessonType.PRACTICE) {
+                        for (int k = studsInGroup * i; k < studsInGroup * (i + 1); k += 1) {
+                            students.get(k).getGroups().add(groupOptional.get());
+                        }
+                    }
+            }
+        });
+
+        studentRepository.saveAll(students);
         studyBlockRepository.saveAll(studyBlocks);
+
+
+        groupsRepository.findAll();
     }
 
 
-    public void deleteAll(){
+    public void deleteAll() {
         auditoriumRepository.deleteAll();
         groupsRepository.deleteAll();
         lectorRepository.deleteAll();
